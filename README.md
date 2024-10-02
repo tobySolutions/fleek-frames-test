@@ -1,5 +1,3 @@
-<a href="https://warpcast.com/an0n/0x3748eeea"><img src="./splash.png" width="200" /></a>
-
 # Fleek Frames Test
 
 ## Getting Started
