@@ -1,0 +1,27 @@
+{
+  "name": "fleek-mud-fn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server-func-mock.js",
+    "deploy": "fleek functions deploy  --name fudGame --path fleek.js",
+    "build": "rollup -c"
+  },
+  "author": "eugenioclrc",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.23.0",
+    "svg2png-wasm": "^1.4.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-wasm": "^6.2.2",
+    "@web/rollup-plugin-import-meta-assets": "^1.0.7",
+    "express": "^4.19.2",
+    "rollup": "^2.60.0",
+    "typescript": "^5.2.2",
+    "unplugin-font-to-buffer": "^0.2.0"
+  }
+}
