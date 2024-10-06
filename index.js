@@ -5,7 +5,7 @@ import { createWelcomeImage } from "./lib/imageGenerator.js";
 export default function bootstrap(HUB_URL) {
   // Initialize the in-memory database if not already initialized
   if (!db.state) {
-    db.state = JSON.stringify({ message: "Welcome" });
+    db.state = { message: "Welcome" };
   }
 
   const renderHome = `
@@ -31,6 +31,8 @@ export default function bootstrap(HUB_URL) {
   function getHtml(HUB_URL, imageDataUrl) {
     let framePostUrl = HUB_URL + "/";
 
+    const stateString = encodeURIComponent(JSON.stringify(db.state));
+
     const str = `
     <html lang="en">
       <head>
@@ -46,9 +48,7 @@ export default function bootstrap(HUB_URL) {
         <meta property="fc:frame:button:2:action" content="post" />
         <meta property="fc:frame:button:3" content="Bananas" data-value="bananas" />
         <meta property="fc:frame:button:3:action" content="post" />
-        <meta property="fc:frame:state" content="${encodeURIComponent(
-          db.state
-        )}" />
+        <meta property="fc:frame:state" content="${stateString}" />
         <title>Fleek Test</title>
       </head>
     </html>
@@ -63,18 +63,17 @@ export default function bootstrap(HUB_URL) {
 
     let fruitName = "";
 
-    // Check if the "Let's play!" button was clicked
     if (data.buttonIndex === "1" && !data.inputText) {
-      // Proceed to display the fruit selection screen
       const imageDataUrl = await createWelcomeImage(db.state);
       const html = getHtml(HUB_URL, imageDataUrl);
       return html;
     } else if (data.inputText) {
       // Handle text input from the user
       fruitName = data.inputText.trim();
-    } else if (data.buttonIndex) {
+    } else if (data.buttonIndex !== undefined) {
       // Handle fruit selection buttons
-      const buttonIndex = data.buttonIndex;
+      const buttonIndex = data.buttonIndex.toString(); // Convert to string
+      console.log("buttonIndex:", buttonIndex, "Type:", typeof buttonIndex);
       switch (buttonIndex) {
         case "1":
           fruitName = "Apples";
@@ -93,21 +92,14 @@ export default function bootstrap(HUB_URL) {
     }
 
     if (fruitName) {
-      // Update the state with the new message
-      db.state = JSON.stringify({ message: "Welcome " + fruitName });
+      db.state = { message: "Welcome " + fruitName };
 
-      // Generate the image with the updated message
       const imageDataUrl = await createWelcomeImage(db.state);
 
-      // Generate the HTML with the new image
       const html = getHtml(HUB_URL, imageDataUrl);
-
-      // Clear the state after generating the image
-      delete db.state;
 
       return html;
     } else {
-      // If no fruit name was provided, display the fruit selection screen
       const imageDataUrl = await createWelcomeImage(db.state);
       const html = getHtml(HUB_URL, imageDataUrl);
       return html;
