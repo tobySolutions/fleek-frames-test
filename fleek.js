@@ -4,7 +4,7 @@ export const main = (request) => {
   const { POST } = bootstrap(
     window
       ? "https://fleek-test.network/services/1/ipfs/" + window.location.host
-      : "https://fleek-test.network/services/1/ipfs/bafkreidgletb4otxorevoxk7vvggx5jxbwd64c6s3fggscq7hmkolnkmse"
+      : "https://fleek-test.network/services/1/ipfs/bafybeifofhb5ygs2vxaio4to2q7ybnho65lu52c2udgqhmunzvvuwfcbye"
   );
   return POST({ request });
 };
